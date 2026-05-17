@@ -2,9 +2,9 @@
 
 | Method | Total reward | Avg reward |
 |---|---:|---:|
-| epsilon-greedy (ε=0.01) | 1421.2 | 0.7106 |
-| epsilon-greedy (ε=0.05) | 1453.4 | 0.7267 |
-| epsilon-greedy (ε=0.10) | 1438.6 | 0.7193 |
-| epsilon-greedy (ε=0.20) | 1431.5 | 0.7157 |
+| epsilon-greedy (ε=0.01) | 3575.7 | 0.7151 |
+| epsilon-greedy (ε=0.05) | 3622.7 | 0.7245 |
+| epsilon-greedy (ε=0.10) | 3614.1 | 0.7228 |
+| epsilon-greedy (ε=0.20) | 3587.0 | 0.7174 |
 
 Best (by total reward): **epsilon-greedy (ε=0.05)**

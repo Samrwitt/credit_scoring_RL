@@ -262,6 +262,11 @@ def arm_selection_frequencies(actions: np.ndarray, num_arms: int) -> np.ndarray:
     return counts / max(1, actions.size)
 
 
+def rank_arms_by_values(values: np.ndarray) -> np.ndarray:
+    """Return arm indices sorted by creditworthiness scores (descending)."""
+    return np.argsort(-np.asarray(values, dtype=float), kind="stable")
+
+
 def rank_arms_by_estimated_creditworthiness(run: BanditRun) -> np.ndarray:
     """
     Returns arm indices sorted by estimated creditworthiness (descending).
@@ -269,5 +274,5 @@ def rank_arms_by_estimated_creditworthiness(run: BanditRun) -> np.ndarray:
     In this assignment framing, the per-arm expected reward is interpreted as
     an estimated repayment success probability / creditworthiness score.
     """
-    return np.argsort(-run.value_estimates, kind="stable")
+    return rank_arms_by_values(run.value_estimates)
 

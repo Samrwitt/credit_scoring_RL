@@ -16,35 +16,35 @@
 <line x1="80" y1="60" x2="80" y2="510" stroke="#222" stroke-width="2"/>
 <line x1="80" y1="510" x2="980" y2="510" stroke="#222" stroke-width="2"/>
 <text x="155.00" y="534" text-anchor="middle" font-family="Arial" font-size="12" fill="#111">0</text>
-<rect x="95.00" y="505.45" width="30.00" height="4.55" fill="#1f77b4"/>
-<rect x="125.00" y="494.67" width="30.00" height="15.33" fill="#ff7f0e"/>
-<rect x="155.00" y="477.80" width="30.00" height="32.20" fill="#2ca02c"/>
-<rect x="185.00" y="459.26" width="30.00" height="50.74" fill="#d62728"/>
+<rect x="95.00" y="507.38" width="30.00" height="2.62" fill="#1f77b4"/>
+<rect x="125.00" y="501.08" width="30.00" height="8.92" fill="#ff7f0e"/>
+<rect x="155.00" y="488.16" width="30.00" height="21.84" fill="#2ca02c"/>
+<rect x="185.00" y="468.67" width="30.00" height="41.33" fill="#d62728"/>
 <text x="305.00" y="534" text-anchor="middle" font-family="Arial" font-size="12" fill="#111">1</text>
-<rect x="245.00" y="504.04" width="30.00" height="5.96" fill="#1f77b4"/>
-<rect x="275.00" y="490.48" width="30.00" height="19.52" fill="#ff7f0e"/>
-<rect x="305.00" y="464.00" width="30.00" height="46.00" fill="#2ca02c"/>
-<rect x="335.00" y="455.11" width="30.00" height="54.89" fill="#d62728"/>
+<rect x="245.00" y="506.38" width="30.00" height="3.62" fill="#1f77b4"/>
+<rect x="275.00" y="498.66" width="30.00" height="11.34" fill="#ff7f0e"/>
+<rect x="305.00" y="479.92" width="30.00" height="30.08" fill="#2ca02c"/>
+<rect x="335.00" y="463.83" width="30.00" height="46.17" fill="#d62728"/>
 <text x="455.00" y="534" text-anchor="middle" font-family="Arial" font-size="12" fill="#111">2</text>
-<rect x="395.00" y="497.65" width="30.00" height="12.35" fill="#1f77b4"/>
-<rect x="425.00" y="478.68" width="30.00" height="31.32" fill="#ff7f0e"/>
-<rect x="455.00" y="458.92" width="30.00" height="51.08" fill="#2ca02c"/>
-<rect x="485.00" y="443.33" width="30.00" height="66.67" fill="#d62728"/>
+<rect x="395.00" y="500.87" width="30.00" height="9.13" fill="#1f77b4"/>
+<rect x="425.00" y="489.15" width="30.00" height="20.85" fill="#ff7f0e"/>
+<rect x="455.00" y="468.31" width="30.00" height="41.69" fill="#2ca02c"/>
+<rect x="485.00" y="447.52" width="30.00" height="62.48" fill="#d62728"/>
 <text x="605.00" y="534" text-anchor="middle" font-family="Arial" font-size="12" fill="#111">3</text>
-<rect x="545.00" y="467.11" width="30.00" height="42.89" fill="#1f77b4"/>
-<rect x="575.00" y="433.48" width="30.00" height="76.52" fill="#ff7f0e"/>
-<rect x="605.00" y="436.53" width="30.00" height="73.47" fill="#2ca02c"/>
-<rect x="635.00" y="427.62" width="30.00" height="82.38" fill="#d62728"/>
+<rect x="545.00" y="477.67" width="30.00" height="32.33" fill="#1f77b4"/>
+<rect x="575.00" y="465.49" width="30.00" height="44.51" fill="#ff7f0e"/>
+<rect x="605.00" y="439.07" width="30.00" height="70.93" fill="#2ca02c"/>
+<rect x="635.00" y="430.31" width="30.00" height="79.69" fill="#d62728"/>
 <text x="755.00" y="534" text-anchor="middle" font-family="Arial" font-size="12" fill="#111">4</text>
-<rect x="695.00" y="397.50" width="30.00" height="112.50" fill="#1f77b4"/>
-<rect x="725.00" y="390.20" width="30.00" height="119.80" fill="#ff7f0e"/>
-<rect x="755.00" y="400.82" width="30.00" height="109.18" fill="#2ca02c"/>
-<rect x="785.00" y="416.99" width="30.00" height="93.01" fill="#d62728"/>
+<rect x="695.00" y="393.90" width="30.00" height="116.10" fill="#1f77b4"/>
+<rect x="725.00" y="404.13" width="30.00" height="105.87" fill="#ff7f0e"/>
+<rect x="755.00" y="391.35" width="30.00" height="118.65" fill="#2ca02c"/>
+<rect x="785.00" y="409.08" width="30.00" height="100.92" fill="#d62728"/>
 <text x="905.00" y="534" text-anchor="middle" font-family="Arial" font-size="12" fill="#111">5</text>
-<rect x="845.00" y="238.24" width="30.00" height="271.76" fill="#1f77b4"/>
-<rect x="875.00" y="322.50" width="30.00" height="187.50" fill="#ff7f0e"/>
-<rect x="905.00" y="371.93" width="30.00" height="138.07" fill="#2ca02c"/>
-<rect x="935.00" y="407.69" width="30.00" height="102.31" fill="#d62728"/>
+<rect x="845.00" y="223.79" width="30.00" height="286.21" fill="#1f77b4"/>
+<rect x="875.00" y="251.50" width="30.00" height="258.50" fill="#ff7f0e"/>
+<rect x="905.00" y="343.18" width="30.00" height="166.82" fill="#2ca02c"/>
+<rect x="935.00" y="390.59" width="30.00" height="119.41" fill="#d62728"/>
 <polyline fill="none" stroke="#000000" stroke-width="2" stroke-dasharray="6,4" points="155.00,249.00 305.00,235.50 455.00,217.50 605.00,199.50 755.00,186.00 905.00,177.00"/>
 <text x="500.0" y="580" text-anchor="middle" font-family="Arial" font-size="14" fill="#111">Arm (segment / policy variant)</text>
 <text x="24" y="300.0" text-anchor="middle" font-family="Arial" font-size="14" fill="#111" transform="rotate(-90 24 300.0)">Selection frequency</text>

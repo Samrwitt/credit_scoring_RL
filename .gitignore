@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# LaTeX build files
+*.aux
+*.log
+*.out
+missfont.log

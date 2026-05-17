@@ -10,7 +10,7 @@ import numpy as np
 from bandits import (
     arm_selection_frequencies,
     epsilon_greedy,
-    rank_arms_by_estimated_creditworthiness,
+    rank_arms_by_values,
     thompson_sampling_bernoulli,
     ucb1,
 )
@@ -129,6 +129,70 @@ def plot_run(
     )
     with open(os.path.join(outdir, f"{title}__arm_frequencies.svg"), "w", encoding="utf-8") as f:
         f.write(bars_svg)
+
+    _save_png_plots(outdir, title, t, runs, true_ps, labels, colors)
+
+
+def _save_png_plots(
+    outdir: str,
+    title: str,
+    t: np.ndarray,
+    runs: Dict[str, Tuple[np.ndarray, np.ndarray, np.ndarray]],
+    true_ps: Sequence[float],
+    labels: List[str],
+    colors: Dict[str, str],
+) -> None:
+    """PNG figures for LaTeX (standard pdflatex + includegraphics, no Inkscape)."""
+    import matplotlib.pyplot as plt
+
+    # Cumulative reward
+    fig, ax = plt.subplots(figsize=(10, 5))
+    for lbl in labels:
+        ax.plot(t, runs[lbl][0], label=lbl, color=colors[lbl], linewidth=1.5)
+    ax.set_title(f"Cumulative reward over time — {title}")
+    ax.set_xlabel("Borrower interactions (t)")
+    ax.set_ylabel("Cumulative successful repayments")
+    ax.legend(fontsize=8, loc="lower right")
+    ax.grid(True, alpha=0.3)
+    fig.tight_layout()
+    fig.savefig(os.path.join(outdir, f"{title}__cumulative_reward.png"), dpi=150)
+    plt.close(fig)
+
+    # Average reward
+    fig, ax = plt.subplots(figsize=(10, 5))
+    for lbl in labels:
+        ax.plot(t, runs[lbl][1], label=lbl, color=colors[lbl], linewidth=1.5)
+    ax.set_title(f"Average reward over time — {title}")
+    ax.set_xlabel("Borrower interactions (t)")
+    ax.set_ylabel("Average repayment success rate")
+    ax.set_ylim(0.0, 1.0)
+    ax.legend(fontsize=8, loc="lower right")
+    ax.grid(True, alpha=0.3)
+    fig.tight_layout()
+    fig.savefig(os.path.join(outdir, f"{title}__average_reward.png"), dpi=150)
+    plt.close(fig)
+
+    # Arm selection frequencies (grouped bars + true p overlay)
+    k = len(true_ps)
+    x = np.arange(k)
+    n_series = len(labels)
+    width = 0.8 / max(1, n_series)
+    fig, ax = plt.subplots(figsize=(10, 5))
+    for i, lbl in enumerate(labels):
+        offset = (i - (n_series - 1) / 2) * width
+        ax.bar(x + offset, runs[lbl][2], width=width, label=lbl, color=colors[lbl], alpha=0.85)
+    ax.plot(x, np.asarray(true_ps, dtype=float), "k-o", linewidth=2, markersize=5, label="True p(repay)")
+    ax.set_title(f"Arm selection frequency — {title}")
+    ax.set_xlabel("Arm (segment / policy variant)")
+    ax.set_ylabel("Selection frequency")
+    ax.set_xticks(x)
+    ax.set_xticklabels([str(i) for i in range(k)])
+    ax.set_ylim(0.0, 1.0)
+    ax.legend(fontsize=8, loc="upper right")
+    ax.grid(True, axis="y", alpha=0.3)
+    fig.tight_layout()
+    fig.savefig(os.path.join(outdir, f"{title}__arm_frequencies.png"), dpi=150)
+    plt.close(fig)
 
 
 def summarize_table(
@@ -320,7 +384,7 @@ def main() -> None:
         regret = 0.0
         tail_best = 0.0
         conv_times: List[int] = []
-        rankings: List[np.ndarray] = []
+        value_sums = np.zeros(k, dtype=float)
         for s in range(sims):
             run = epsilon_greedy(k, true_dists, steps, eps, seed=args.seed + 1000 * s)
             cum += run.cumulative_reward
@@ -329,17 +393,17 @@ def main() -> None:
             total += run.total_reward
             regret += oracle_total - run.total_reward
             tail_best += _best_arm_rate_in_tail(run.actions, best_arm, 0.1)
+            value_sums += run.value_estimates
             ct = _time_to_reach(run.average_reward, 0.95 * best_p)
             if ct is not None:
                 conv_times.append(ct)
-            rankings.append(rank_arms_by_estimated_creditworthiness(run))
         metrics = {
             "total_reward": total / sims,
             "avg_reward": (total / sims) / steps,
             "regret": regret / sims,
             "tail_best_arm_rate": tail_best / sims,
             "convergence_t": float(np.mean(conv_times)) if conv_times else float("nan"),
-            "mean_ranking": _format_ranking(np.round(np.mean(np.stack(rankings), axis=0)).astype(int)),
+            "mean_ranking": _format_ranking(rank_arms_by_values(value_sums / sims)),
         }
         return cum / sims, avg / sims, freq / sims, metrics
 
@@ -351,7 +415,7 @@ def main() -> None:
         regret = 0.0
         tail_best = 0.0
         conv_times: List[int] = []
-        rankings: List[np.ndarray] = []
+        value_sums = np.zeros(k, dtype=float)
         for s in range(sims):
             run = ucb1(k, true_dists, steps, exploration=c, seed=args.seed + 2000 * s)
             cum += run.cumulative_reward
@@ -360,17 +424,17 @@ def main() -> None:
             total += run.total_reward
             regret += oracle_total - run.total_reward
             tail_best += _best_arm_rate_in_tail(run.actions, best_arm, 0.1)
+            value_sums += run.value_estimates
             ct = _time_to_reach(run.average_reward, 0.95 * best_p)
             if ct is not None:
                 conv_times.append(ct)
-            rankings.append(rank_arms_by_estimated_creditworthiness(run))
         metrics = {
             "total_reward": total / sims,
             "avg_reward": (total / sims) / steps,
             "regret": regret / sims,
             "tail_best_arm_rate": tail_best / sims,
             "convergence_t": float(np.mean(conv_times)) if conv_times else float("nan"),
-            "mean_ranking": _format_ranking(np.round(np.mean(np.stack(rankings), axis=0)).astype(int)),
+            "mean_ranking": _format_ranking(rank_arms_by_values(value_sums / sims)),
         }
         return cum / sims, avg / sims, freq / sims, metrics
 
@@ -382,7 +446,7 @@ def main() -> None:
         regret = 0.0
         tail_best = 0.0
         conv_times: List[int] = []
-        rankings: List[np.ndarray] = []
+        value_sums = np.zeros(k, dtype=float)
         for s in range(sims):
             run = thompson_sampling_bernoulli(k, scenario.true_ps, steps, seed=args.seed + 3000 * s)
             cum += run.cumulative_reward
@@ -391,17 +455,17 @@ def main() -> None:
             total += run.total_reward
             regret += oracle_total - run.total_reward
             tail_best += _best_arm_rate_in_tail(run.actions, best_arm, 0.1)
+            value_sums += run.value_estimates
             ct = _time_to_reach(run.average_reward, 0.95 * best_p)
             if ct is not None:
                 conv_times.append(ct)
-            rankings.append(rank_arms_by_estimated_creditworthiness(run))
         metrics = {
             "total_reward": total / sims,
             "avg_reward": (total / sims) / steps,
             "regret": regret / sims,
             "tail_best_arm_rate": tail_best / sims,
             "convergence_t": float(np.mean(conv_times)) if conv_times else float("nan"),
-            "mean_ranking": _format_ranking(np.round(np.mean(np.stack(rankings), axis=0)).astype(int)),
+            "mean_ranking": _format_ranking(rank_arms_by_values(value_sums / sims)),
         }
         return cum / sims, avg / sims, freq / sims, metrics
 
